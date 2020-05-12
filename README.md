@@ -11,9 +11,7 @@ This is the code base for backend server for the project MovieGenie
 
 1.  Install Docker (Learn more about docker installation [here](https://docs.docker.com/install/))
 2.  Enter on the project root directory 
-3.  Up the compose
-
-docker-compose up -d
+3.  Run the docker `docker-compose up -d`
 
 *   Access phpmyadmin
 
