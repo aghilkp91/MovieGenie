@@ -46,6 +46,5 @@ db.dropRestApiTable = () => {
 };
 //db.posts = require("./movie")(database, Sequelize);
 db.users = require("./user")(database, Sequelize);
-db.movies = require("./movie")(database, Sequelize);
 
 module.exports = db;

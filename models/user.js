@@ -41,30 +41,21 @@ module.exports = (sequelize, Sequelize) => {
         },
         chatbotType:{
             type: Sequelize.INTEGER
+        },
+        movieNames: {
+            type: Sequelize.TEXT
+        },
+        genreNames: {
+            type: Sequelize.TEXT
+        },
+        actorNames: {
+            type: Sequelize.TEXT
+        },
+        lastRecommendedMovie: {
+            type: Sequelize.STRING
         }
     });
 
-    // User.beforeCreate((user, options) => {
-    //
-    //     return bcrypt.hash(user.password, 10)
-    //         .then(hash => {
-    //             user.password = hash;
-    //         })
-    //         .catch(err => {
-    //             throw new Error();
-    //         });
-    // })
-
-    // User.prototype.comparePassword = function(pw, callback) {
-    //     let err, pass
-    //     if(!this.password) return false;
-    //
-    //     bcrypt.compare(pw, this.password, callback);
-    // }
-
-    // User.prototype.verifyCredentials = function(loginData, callback) {
-    // if(!loginData.username || !loginData.password) return callback('Please provide email and password');
-    // }
 
     return User;
 }

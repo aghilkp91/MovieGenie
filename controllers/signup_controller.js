@@ -149,7 +149,8 @@ exports.getUniqueUser = (req, res, next) => {
                 Age: user.age,
                 Gender: user.gender,
                 Country: user.country,
-                NoOfLogins: user.noOfLogins
+                NoOfLogins: user.noOfLogins,
+                chatbotType: user.chatbotType
             }
             console.log(`Successfully returned the details of ${$resp.UserName}`);
             res.status(200).send({
@@ -170,7 +171,7 @@ exports.deleteUserById = (req, res, next) => {
         where: {userGenieName: $userId}
     }).catch(err => {
         console.log(`Error: ${err.message}`);
-        res.status(404).json({
+        res.status(404).send({
             Error: {
                 message: err.message
             }
@@ -178,7 +179,7 @@ exports.deleteUserById = (req, res, next) => {
     }).then(result => {
         if (result.length < 1) {
             console.log(`Error: data not found for deletion`);
-            res.status(404).json({
+            res.status(404).send({
                 Error: {
                     message: `data not existing in system for deleting`
                 }
@@ -188,21 +189,20 @@ exports.deleteUserById = (req, res, next) => {
                 where: {userGenieName: $userId}
             }).catch(err => {
                 console.log(`Error: ${err.message}`);
-                res.status(404).json({
+                res.status(404).send({
                     Error: {
                         message: err.message
                     }
                 });
             }).then(result => {
                 console.log(`Deleted: ${result}`);
-                res.status(200).json({
+                res.status(200).send({
                     message: `User ${$userId} successfully deleted`,
                 });
             })
         }
     });
 };
-
 
 // Updating Data In The DataBase
 exports.updateUserById = (req, res, next) => {
@@ -271,4 +271,74 @@ exports.updateUserById = (req, res, next) => {
             }
         });
     }
+};
+
+// Updating Data In The DataBase
+exports.putChatbotType = (req, res, next) => {
+    const $userId = req.params.id;
+    const chatbottype = req.body.chatbotType;
+    if (chatbottype === "") {
+        console.log(`Error: chatBotType field cannot be empty`);
+        res.status(404).send({
+            Error: {
+                message: `chatBotType cannot be empty`
+            }
+        });
+    } else {
+        const updateObj = {
+            chatbotType: chatbottype
+        }
+        usersObj.update(updateObj, {
+            where: {userGenieName: $userId}
+        }).catch(err => {
+            console.log(`Error: ${err.message}`);
+            res.status(404).send({
+                Error: {
+                    message: err.message
+                }
+            });
+        }).then(resul => {
+            console.log(`Updated chatBotType for user: ${$userId} with value ${chatbottype}`);
+            res.status(200).send({
+                message: `Updated the field chatBotType successfully`
+            });
+        });
+    }
+};
+
+//Getting Unique Data From The DataBase
+exports.getChatbotType = (req, res, next) => {
+    const $userId = req.params.id;
+
+    usersObj.findAll({
+        where: {userGenieName: $userId}
+    }).catch(err => {
+        console.log(`Error: ${err.message}`);
+        res.status(404).send({
+            Error: {
+                message: err.message
+            }
+        });
+    }).then(result => {
+        if (result.length < 1) {
+            console.log(`Error: user not found`);
+            res.status(404).send({
+                Error: {
+                    message: `user not found`
+                }
+            });
+        } else {
+            const user = result[0].dataValues;
+            const $resp = {
+                userId: user.userGenieName,
+                ChatBotType: user.chatbotType
+            }
+            console.log(`Successfully returned chatBotType of user ${$resp.UserName}`);
+            res.status(200).send({
+                message: `chatBotType retrieved successfully`,
+                success: $resp
+            });
+
+        }
+    });
 };

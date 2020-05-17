@@ -45,10 +45,10 @@ You will get an `AuthToken` when you login. Use the token in header of api call 
 |---|---|---|---|
 | POST | /signup | Signup a new user | { user_id: "test_user1", password: "test_pass1", age: 20, gender: "Male", country: "Netherlands" } |
 | POST | /login | Login using username and password | { user_id: "test_user1", password: "test_pass1" } |
-| GET | /signup/id/{user_id} | Get the user details | |
-| PUT | /signup/id/{user_id}| Update user details by `id` | {password: "new_password"}|
-| GET | /signup/| Get all user details | |
-| DELETE |/signup/id/{user_id}| Delete the user by user_id| |
+| GET | /users/id/{user_id} | Get the user details | |
+| PUT | /users/id/{user_id}| Update user details by `id` | {password: "new_password"}|
+| GET | /users/| Get all user details | |
+| DELETE |/users/id/{user_id}| Delete the user by user_id| |
 
 Tips:
 

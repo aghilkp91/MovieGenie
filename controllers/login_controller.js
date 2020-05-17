@@ -28,12 +28,12 @@ exports.postLogin = (req, res, next) => {
         usersObj.findAll({
             where: {userGenieName: $userId}
         }).catch(err => {
-                console.log(`Error: ${err.message}`);
-                res.status(404).json({
-                    Error: {
-                        message: err.message
-                    }
-                });
+            console.log(`Error: ${err.message}`);
+            res.status(404).json({
+                Error: {
+                    message: err.message
+                }
+            });
         }).then(result => {
             const user = result[0].dataValues;
             if (result.length < 1) {
@@ -44,15 +44,17 @@ exports.postLogin = (req, res, next) => {
                     }
                 });
             } else {
-                $bcrypt.compare(req.body.password, user.password, (err, resp) => {
-                    if (err) {
+                // $bcrypt.compare(req.body.password, user.password, (err, resp) => {
+                $bcrypt.compare(req.body.password, user.password)
+                    .catch((err) => {
                         console.log(`Error: ${err.message}`);
                         res.status(409).json({
                             Error: {
                                 message: err.message
                             }
                         });
-                    } else if (resp) {
+                    }).then((resp) => {
+                    if (resp) {
                         const $token = $jwt.sign({
                                 Id: user.userId,
                                 User_Name: user.userGenieName,
